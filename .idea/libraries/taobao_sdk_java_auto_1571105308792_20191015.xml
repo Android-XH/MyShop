@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="taobao-sdk-java-auto_1571105308792-20191015">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/src/main/resources/lib/taobao-sdk-java-auto_1571105308792-20191015.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/src/main/resources/lib/taobao-sdk-java-auto_1571105308792-20191015-source.jar!/" />
+    </SOURCES>
+  </library>
+</component>
