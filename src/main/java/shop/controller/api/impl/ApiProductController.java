@@ -25,6 +25,7 @@ public class ApiProductController extends ApiBaseController implements ApiProduc
     @Override
     public RequestBean getProductList(Pagination pagination) throws Exception {
         BaseParam baseParam=new BaseParam();
+        baseParam.setPagination(pagination);
         return RequestBean.getProductList(baseProductList(baseParam),baseParam.getPagination());
     }
 

@@ -44,8 +44,7 @@ public class RequestBean extends HashMap<String, Object> {
     public static RequestBean Err(RequestCommon requestCommon){
         RequestBean r = new RequestBean();
         r.put("code", requestCommon.getCode());
-        r.put("msg", "fail");
-        r.put("data", requestCommon.getMessage());
+        r.put("msg", requestCommon.getMessage());
         return r;
     }
     public static RequestBean getProductList(List<Product> productList,Pagination pagination){
@@ -73,6 +72,11 @@ public class RequestBean extends HashMap<String, Object> {
             p.put("coupon_total_count",coupon.getCoupon_amount());
             p.put("coupon_remain_count",coupon.getCoupon_remain_count());
             p.put("coupon_share_url",coupon.getCoupon_share_url());
+        }
+        ShopUser shopUser=product.getShop();
+        if(shopUser!=null){
+            p.put("shop_title",shopUser.getShop_title());
+            p.put("shop_city",shopUser.getProvcity());
         }
         return p;
     }
