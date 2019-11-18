@@ -23,11 +23,21 @@ public class ApiProductController extends ApiBaseController implements ApiProduc
     }
 
     @Override
-    public RequestBean getProductList(Pagination pagination) throws Exception {
-        BaseParam baseParam=new BaseParam();
-        baseParam.setPagination(pagination);
+    public RequestBean getProductList(BaseParam baseParam) throws Exception {
+        System.out.println("pagination=="+baseParam.getPagination());
+        System.out.println("categoryID=="+baseParam.getCategory_id());
+        System.out.println("categoryItemID=="+baseParam.getCategory_item_id());
+        System.out.println("sort=="+baseParam.getSort());
+        System.out.println("keyWord=="+baseParam.getKeyWord());
+//        BaseParam baseParam=new BaseParam();
+//        baseParam.setPagination(pagination);
+//        baseParam.setCategory_id(categoryID);
+//        baseParam.setCategory_item_id(categoryItemID);
+//        baseParam.setSort(sort);
+//        baseParam.setKeyWord(keyWord);
         return RequestBean.getProductList(baseProductList(baseParam),baseParam.getPagination());
     }
+
 
     @Override
     public RequestBean getProductDetail(int id) throws Exception {
@@ -41,5 +51,6 @@ public class ApiProductController extends ApiBaseController implements ApiProduc
         List<MenuCategory>menuCategoryList=baseMenuCategoryList(new BaseParam());
         return RequestBean.ArrayData(menuCategoryList,null);
     }
+
 
 }

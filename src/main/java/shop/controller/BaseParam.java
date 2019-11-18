@@ -4,7 +4,6 @@ import org.apache.commons.lang3.StringUtils;
 import shop.util.Pagination;
 
 public class BaseParam {
-    private Pagination pagination;
     private String keyWord;//搜索关键词
     private int id;//条目ID
     private long pid;//商品ID
@@ -12,8 +11,26 @@ public class BaseParam {
     private long category_item_id;//子分类ID
     private int recommend;//推荐等级
     private String sort;
-
     private String sql;
+    private int page;
+    private int size;
+    private Pagination pagination;
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
 
     public String getSql() {
         return sql;
@@ -27,6 +44,8 @@ public class BaseParam {
         if(pagination==null){
             pagination=new Pagination();
         }
+        pagination.setPage(page);
+        pagination.setSize(size);
         pagination.setParam(getParam());
         return pagination;
     }
