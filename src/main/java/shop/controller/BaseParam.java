@@ -103,7 +103,7 @@ public class BaseParam {
             stringBuffer.append("&categoryID="+this.getCategory_id());
         }
         if(category_item_id!=0){
-            stringBuffer.append("&categoryItemId="+this.getCategory_item_id());
+            stringBuffer.append("&categoryItemID="+this.getCategory_item_id());
         }
         if(StringUtils.isNotEmpty(keyWord)){
             stringBuffer.append("&keyword="+this.getKeyWord());

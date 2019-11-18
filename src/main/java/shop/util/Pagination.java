@@ -94,15 +94,15 @@ public class Pagination {
      * @return 最后一页的第一项的页码
      */
     public int getLastPage() {
-        return getTotalPage();
+        return getTotalPage()+1;
     }
 
     public boolean isHasPrevious() {
-        return start > 0;
+        return page > 1;
     }
 
     public boolean isHasNext() {
-        return start != getLastPage();
+        return page != getLastPage();
     }
 
 

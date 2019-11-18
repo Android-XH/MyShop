@@ -22,7 +22,7 @@ public class ShowController extends ShowBaseController implements ShowController
     @Override
     public String home(Model mode) throws Exception {
         BaseParam baseParam=new BaseParam();
-        Pagination pagination = new Pagination();
+        Pagination pagination = baseParam.getPagination();
         pagination.setSize(20);
         baseParam.setPagination(pagination);
         List<MenuCategory>menuCategories=baseMenuCategoryList(baseParam);
@@ -45,7 +45,7 @@ public class ShowController extends ShowBaseController implements ShowController
         BaseParam baseParam=new BaseParam();
         baseParam.setKeyWord(keyword);
         baseParam.setSort(sort);
-        Pagination pagination=new Pagination();
+        Pagination pagination=baseParam.getPagination();
         pagination.setPage(page==null?0:page);
         pagination.setSize(20);
         baseParam.setPagination(pagination);
@@ -58,8 +58,6 @@ public class ShowController extends ShowBaseController implements ShowController
     @Override
     public String category(Integer categoryID, Integer categoryItemID,Integer page,String sort,Model mode) throws Exception {
         BaseParam baseParam=new BaseParam();
-        Pagination pagination=new Pagination();
-        pagination.setPage(page==null?0:page);
         if(categoryID!=null){
             baseParam.setCategory_id(categoryID);
         }
@@ -69,10 +67,13 @@ public class ShowController extends ShowBaseController implements ShowController
         if(StringUtils.isNotEmpty(sort)){
             baseParam.setSort(sort);
         }
+        Pagination pagination=baseParam.getPagination();
+        pagination.setPage(page==null?0:page);
         pagination.setSize(20);
         baseParam.setPagination(pagination);
         mode.addAttribute("products",baseProductList(baseParam));
         mode.addAttribute("pagination",baseParam.getPagination());
+        System.out.println(baseParam.getPagination().isHasNext());
         return "category";
     }
 

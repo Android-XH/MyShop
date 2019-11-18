@@ -45,16 +45,6 @@ public class BaseController implements BaseControllerInterface{
             String keyWord=baseParam.getKeyWord();
             if(StringUtils.isNotEmpty(keyWord)){
                 searchHistoryService.insert(keyWord);
-                CategoryItem categoryItem= (CategoryItem) categoryItemService.getOne("category_name_like",keyWord);
-                if(categoryItem!=null&&baseParam.getCategory_item_id()==0){
-                    baseParam.setCategory_item_id(categoryItem.getCategory_item_id());
-                }
-                if(baseParam.getCategory_item_id()==0){
-                    Category category= (Category) categoryService.getOne("name_like",keyWord);
-                    if(category!=null&&baseParam.getCategory_id()==0){
-                        baseParam.setCategory_id(category.getCategory_id());
-                    }
-                }
                 if(baseParam.getCategory_item_id()!=0){
                     productList=productService.list("pagination",pagination,"category_item_id_eq",baseParam.getCategory_item_id(),"key_word_like",keyWord,"order", SortUtil.handleSort(baseParam.getSort()));
                 }else if(baseParam.getCategory_id()!=0){
@@ -63,10 +53,10 @@ public class BaseController implements BaseControllerInterface{
                     productList=productService.list("pagination",pagination,"key_word_like",keyWord,"title_orLike",keyWord,"order", SortUtil.handleSort(baseParam.getSort()));
                 }
             }else{
-                if(baseParam.getCategory_id()!=0){
-                    productList=productService.list("pagination",pagination,"category_id_eq",baseParam.getCategory_id(),"order", SortUtil.handleSort(baseParam.getSort()));
-                }else if(baseParam.getCategory_item_id()!=0){
+                if(baseParam.getCategory_item_id()!=0){
                     productList=productService.list("pagination",pagination,"category_item_id_eq",baseParam.getCategory_item_id(),"order", SortUtil.handleSort(baseParam.getSort()));
+                }else if(baseParam.getCategory_id()!=0){
+                    productList=productService.list("pagination",pagination,"category_id_eq",baseParam.getCategory_id(),"order", SortUtil.handleSort(baseParam.getSort()));
                 }else{
                     productList=productService.list("pagination",pagination,"order", SortUtil.handleSort(baseParam.getSort()));
                 }
@@ -91,8 +81,14 @@ public class BaseController implements BaseControllerInterface{
 
     @Override
     public  List<Category> baseCategoryList(BaseParam baseParam) throws Exception {
+        List<Category>categoryList;
         Pagination pagination=baseParam.getPagination();
-        return categoryService.list("depth",1,"pagination",pagination);
+        if(StringUtils.isNotEmpty(baseParam.getKeyWord())){
+            categoryList= categoryService.list("depth",1,"pagination",pagination,"name_like",baseParam.getKeyWord());
+        }else{
+            categoryList= categoryService.list("depth",1,"pagination",pagination);
+        }
+        return categoryList;
     }
 
     @Override

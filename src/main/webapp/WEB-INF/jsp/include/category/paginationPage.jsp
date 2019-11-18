@@ -21,7 +21,7 @@
                        tabindex="-1">‹</a>
                 </li>
 <%--                <div>${((pagination.page>9)?(pagination.page-5):1)}</div>--%>
-                <c:forEach begin="${((pagination.page>9)?(pagination.page-5):0)}" end="${pagination.page>9?((pagination.page+5)>=pagination.total?pagination.total:pagination.page+5):9}" varStatus="vs">
+                <c:forEach begin="${((pagination.page>9)?(pagination.page-5):0)}" end="${pagination.page>9?((pagination.page+5)>=pagination.totalPage?pagination.totalPage:pagination.page+5):(pagination.totalPage>9?9:pagination.totalPage)}" varStatus="vs">
                     <li class="page-item ${((pagination.page>9)?(pagination.page-5):0)+vs.count==pagination.page? 'active':''}">
                         <a class="page-link" href="?page=${((pagination.page>9)?(pagination.page-5):0)+vs.count}${pagination.param}">
                                 ${((pagination.page>9)?(pagination.page-5):0)+vs.count}
@@ -30,10 +30,10 @@
                 </c:forEach>
 
 
-                <li class="page-item" ${pagination.hasNext ? '':'disabled'}>
+                <li class="page-item ${pagination.hasNext ? '':'disabled'}" >
                     <a class="page-link" href="?page=${pagination.page+1}${pagination.param}&sort=${param.sort}">›</a>
                 </li>
-                <li class="page-item" ${pagination.hasNext ? '':'disabled'}>
+                <li class="page-item ${pagination.hasNext ? '':'disabled'}" >
                     <a class="page-link" href="?page=${pagination.lastPage}${pagination.param}">»</a>
                 </li>
             </ul>
