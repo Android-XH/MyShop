@@ -14,7 +14,7 @@ public class SortUtil {
                 //人气
                 column = "tk_total_sales";
                 break;
-            case "saleCount":
+            case "volume":
                 column = "volume";
                 break;
             case "price":

@@ -65,6 +65,14 @@ public class BaseServiceImpl<M, E> extends Service4DAOImpl<M, E> implements Base
                         .invoke(criteria2, "%" + paramAndObjects[i + 1].toString() + "%");
                 continue;
             }
+            //andIdNotEqualTo
+            if (paramAndObjects[i].toString().endsWith("_notEq") ) {
+                String column = StringUtils.replace(paramAndObjects[i].toString(), "_notEq", "");
+                criteria.getClass()
+                        .getMethod( "and" +StringUtils.capitalize(column) + "NotEqualTo",paramAndObjects[i + 1].getClass())
+                        .invoke(criteria, paramAndObjects[i + 1]);
+                continue;
+            }
             // =value
             if (paramAndObjects[i].toString().endsWith("_eq") ) {
                 String column = StringUtils.replace(paramAndObjects[i].toString(), "_eq", "");

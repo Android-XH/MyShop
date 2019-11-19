@@ -10,7 +10,7 @@
                 class="glyphicon glyphicon-arrow-down"></span></a>
         <a href="?keyword=${keyword}&sort=date" class="${param.sort=='date'?'selected':''}">新品<span
                 class="glyphicon glyphicon-arrow-down"></span></a>
-        <a href="?keyword=${keyword}&sort=saleCount" class="${param.sort=='saleCount'?'selected':''}">销量<span
+        <a href="?keyword=${keyword}&sort=volume" class="${param.sort=='volume'?'selected':''}">销量<span
                 class="glyphicon glyphicon-arrow-down"></span></a>
         <a href="?keyword=${keyword}&sort=${param.sort=='price'?'priceInverse':'price'}"
            class="${(param.sort=="price"||param.sort=="priceInverse")?'selected':''}">价格<span

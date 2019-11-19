@@ -132,4 +132,21 @@ public class BaseParam {
         }
         return stringBuffer.toString();
     }
+
+    @Override
+    public String toString() {
+        return "BaseParam{" +
+                "keyWord='" + keyWord + '\'' +
+                ", id=" + id +
+                ", pid=" + pid +
+                ", category_id=" + category_id +
+                ", category_item_id=" + category_item_id +
+                ", recommend=" + recommend +
+                ", sort='" + sort + '\'' +
+                ", sql='" + sql + '\'' +
+                ", page=" + page +
+                ", size=" + size +
+                ", pagination=" + pagination +
+                '}';
+    }
 }

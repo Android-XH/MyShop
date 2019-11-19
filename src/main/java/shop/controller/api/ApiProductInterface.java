@@ -20,4 +20,13 @@ public interface ApiProductInterface {
     @RequestMapping("getMenuCategory")
     @ResponseBody
     public RequestBean getMenuCategory()throws Exception;
+    @RequestMapping("getRecommend")
+    @ResponseBody
+    public RequestBean getRecommend()throws Exception;
+    @RequestMapping("getSearchKey")
+    @ResponseBody
+    public RequestBean getSearchKey()throws Exception;
+    @RequestMapping("getTaoKey")
+    @ResponseBody
+    public RequestBean getTaoKey(int id)throws Exception;
 }

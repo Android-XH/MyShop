@@ -1,5 +1,9 @@
 package shop.controller.api.impl;
 
+import com.taobao.api.DefaultTaobaoClient;
+import com.taobao.api.TaobaoClient;
+import com.taobao.api.request.TbkTpwdCreateRequest;
+import com.taobao.api.response.TbkTpwdCreateResponse;
 import org.springframework.stereotype.Controller;
 import shop.controller.BaseParam;
 import shop.controller.api.ApiBaseController;
@@ -7,9 +11,13 @@ import shop.controller.RequestBean;
 import shop.controller.api.ApiProductInterface;
 import shop.mode.MenuCategory;
 import shop.mode.Product;
+import shop.mode.Recommend;
+import shop.mode.SearchHistory;
 import shop.util.Pagination;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import static shop.controller.RequestCommon.SUCCESS_TEST;
 
@@ -24,17 +32,7 @@ public class ApiProductController extends ApiBaseController implements ApiProduc
 
     @Override
     public RequestBean getProductList(BaseParam baseParam) throws Exception {
-        System.out.println("pagination=="+baseParam.getPagination());
-        System.out.println("categoryID=="+baseParam.getCategory_id());
-        System.out.println("categoryItemID=="+baseParam.getCategory_item_id());
-        System.out.println("sort=="+baseParam.getSort());
-        System.out.println("keyWord=="+baseParam.getKeyWord());
-//        BaseParam baseParam=new BaseParam();
-//        baseParam.setPagination(pagination);
-//        baseParam.setCategory_id(categoryID);
-//        baseParam.setCategory_item_id(categoryItemID);
-//        baseParam.setSort(sort);
-//        baseParam.setKeyWord(keyWord);
+        System.out.println(baseParam.toString());
         return RequestBean.getProductList(baseProductList(baseParam),baseParam.getPagination());
     }
 
@@ -49,8 +47,24 @@ public class ApiProductController extends ApiBaseController implements ApiProduc
     @Override
     public RequestBean getMenuCategory() throws Exception {
         List<MenuCategory>menuCategoryList=baseMenuCategoryList(new BaseParam());
-        return RequestBean.ArrayData(menuCategoryList,null);
+        return RequestBean.ArrayData(menuCategoryList);
     }
 
+    @Override
+    public RequestBean getRecommend() throws Exception {
+        List<Recommend>recommendList=getRecommendList();
+        return RequestBean.getRecommendList(recommendList);
+    }
 
+    @Override
+    public RequestBean getSearchKey() throws Exception {
+        List<SearchHistory>searchHistoryList=getSearchHistory();
+        return RequestBean.ArrayData(searchHistoryList);
+    }
+
+    @Override
+    public RequestBean getTaoKey(int id) throws Exception {
+        String key=baseGetTaoKey(id);
+        return RequestBean.Data(key);
+    }
 }

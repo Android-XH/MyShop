@@ -9,7 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 
 public class RequestBean extends HashMap<String, Object> {
-
+    public static RequestBean ArrayData(List<?> data){
+        return ArrayData(data,null);
+    }
     public static RequestBean ArrayData(List<?> data,Pagination pagination){
         RequestBean r = new RequestBean();
         r.put("code", 0);
@@ -20,7 +22,6 @@ public class RequestBean extends HashMap<String, Object> {
         }
         r.put("data", data);
         return r;
-
     }
     private static RequestBean getPagination(Pagination pagination){
         RequestBean r = new RequestBean();
@@ -47,6 +48,14 @@ public class RequestBean extends HashMap<String, Object> {
         r.put("msg", requestCommon.getMessage());
         return r;
     }
+    public static RequestBean getRecommendList(List<Recommend> recommends){
+        List<HashMap<String,Object>>products=new ArrayList<HashMap<String,Object>>(recommends.size());
+        for(Recommend recommend:recommends){
+            products.add(getProductMap(recommend.getProduct()));
+        }
+        return ArrayData(products,null);
+    }
+
     public static RequestBean getProductList(List<Product> productList,Pagination pagination){
         List<HashMap<String,Object>>products=new ArrayList<HashMap<String,Object>>(productList.size());
         for(Product product:productList){
