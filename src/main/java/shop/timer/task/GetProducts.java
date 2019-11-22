@@ -28,7 +28,7 @@ public class GetProducts {
     private CategoryService categoryService;
 
     private final int GET_DATA_THREADS=10;//取数据同时启动线程
-    private final int SAVE_DATA_THREADS=20;//存储数据同时启动线程
+    private final int SAVE_DATA_THREADS=3;//存储数据同时启动线程
     private ExecutorService insterService;
     public GetProducts(ConfigService configService, ProductService productService, ProductImagesService productImagesService, CouponService couponService, ShopUserService shopUserService, CategoryService categoryService) {
         this.configService = configService;
@@ -38,7 +38,6 @@ public class GetProducts {
         this.shopUserService = shopUserService;
         this.categoryService = categoryService;
     }
-
     public void run(){
         try {
             System.out.println("开始更新数据----");
@@ -78,7 +77,7 @@ public class GetProducts {
             if (!future1.isDone()) {
                 return false;
             }else if(!future.isSave()){
-                save(future);
+//                save(future);
             }
         }
         return true;

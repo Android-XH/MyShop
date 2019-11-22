@@ -29,7 +29,7 @@ public class Product extends ProductExtension implements shop.mode.ORM.POJOMappe
      *
      * @mbg.generated
      */
-    private Integer coupon_id;
+    private String coupon_id;
 
     /**
      *
@@ -204,7 +204,7 @@ public class Product extends ProductExtension implements shop.mode.ORM.POJOMappe
      *
      * @mbg.generated
      */
-    public Integer getCoupon_id() {
+    public String getCoupon_id() {
         return coupon_id;
     }
 
@@ -216,8 +216,8 @@ public class Product extends ProductExtension implements shop.mode.ORM.POJOMappe
      *
      * @mbg.generated
      */
-    public void setCoupon_id(Integer coupon_id) {
-        this.coupon_id = coupon_id;
+    public void setCoupon_id(String coupon_id) {
+        this.coupon_id = coupon_id == null ? null : coupon_id.trim();
     }
 
     /**

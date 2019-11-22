@@ -1,5 +1,7 @@
 package shop.mode.mapper;
 
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,6 +42,10 @@ public class Mapper extends Mapper4ORM {
     public int updateByPrimaryKey(Object object) throws Exception {
         fillOnWriting(object);
         return (int) mapper.getClass().getMethod("updateByPrimaryKey", object.getClass()).invoke(mapper, object);
+    }
+
+    public int insertOfList(List list) throws Exception {
+        return (int) mapper.getClass().getMethod("insertOfList", list.getClass()).invoke(mapper, list);
     }
 
     public List selectByExample(Object example) throws Exception {

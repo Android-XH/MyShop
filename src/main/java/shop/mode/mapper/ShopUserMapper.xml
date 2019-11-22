@@ -192,4 +192,23 @@
       nick = #{nick,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <insert id="insertOfList" parameterType="java.util.ArrayList" useGeneratedKeys="true">
+    insert into shop_user (sid, provcity, shop_dsr,
+    shop_title, user_type, nick
+    )
+    values
+    <foreach collection="list" index="index" item="item" separator=",">
+        (#{item.sid,jdbcType=BIGINT}, #{item.provcity,jdbcType=VARCHAR}, #{item.shop_dsr,jdbcType=BIGINT},
+      #{item.shop_title,jdbcType=VARCHAR}, #{item.user_type,jdbcType=BIGINT}, #{item.nick,jdbcType=VARCHAR}
+      )
+    </foreach>
+    ON DUPLICATE KEY
+    UPDATE
+    sid=values (sid),
+    provcity=values (provcity),
+    shop_dsr=values (shop_dsr),
+    shop_title=values (shop_title),
+    user_type=values (user_type),
+    nick=values (nick)
+  </insert>
 </mapper>

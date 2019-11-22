@@ -73,7 +73,6 @@ public class ShowController extends ShowBaseController implements ShowController
         baseParam.setPagination(pagination);
         mode.addAttribute("products",baseProductList(baseParam));
         mode.addAttribute("pagination",baseParam.getPagination());
-        System.out.println(baseParam.getPagination().isHasNext());
         return "category";
     }
 

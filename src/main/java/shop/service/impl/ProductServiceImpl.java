@@ -13,34 +13,12 @@ public class ProductServiceImpl extends BaseServiceImpl<ProductMapper, ProductEx
 
     @Override
     public void insertToDb(Product product) throws Exception {
-        try{
-            if(product.getPid()!=null){
-                Product product1= (Product) getOne("pid_eq",product.getPid());
-                if(product1!=null){
-                    product.setId(product1.getId());
-                    String key=product.getKey_word();
-                   if(key!=null&&!key.isEmpty()){
-                       String keyWord[]=key.split("/");
-                       String oldKey=product1.getKey_word();
-                       if(oldKey!=null&&!oldKey.isEmpty()){
-                           for(String k:keyWord){
-                               if(!oldKey.contains(k)){
-                                   oldKey+=("/"+k);
-                               }
-                           }
-                           product.setKey_word(oldKey);
-                       }
-                   }
-                    update(product);
-                }else{
-                    add(product);
-                }
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-            System.out.println(e);
+        Product product1= (Product) getOne("pid_eq",product.getPid());
+        if(product1!=null){
+            product.setId(product1.getId());
+            update(product);
+        }else{
+            add(product);
         }
-
     }
-
 }

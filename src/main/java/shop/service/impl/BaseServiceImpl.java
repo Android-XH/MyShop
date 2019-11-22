@@ -12,6 +12,7 @@ import shop.service.BaseService;
 import shop.util.Pagination;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -133,6 +134,11 @@ public class BaseServiceImpl<M, E> extends Service4DAOImpl<M, E> implements Base
     @Override
     public List selectBySql(String sql) throws Exception {
         return mapper.selectBySql(sql);
+    }
+
+    @Override
+    public int insertOfList(ArrayList list) throws Exception {
+        return mapper.insertOfList(list);
     }
 
 

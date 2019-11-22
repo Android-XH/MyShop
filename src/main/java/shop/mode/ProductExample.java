@@ -385,52 +385,62 @@ public class ProductExample implements BaseExample {
             return (Criteria) this;
         }
 
-        public Criteria andCoupon_idEqualTo(Integer value) {
+        public Criteria andCoupon_idEqualTo(String value) {
             addCriterion("coupon_id =", value, "coupon_id");
             return (Criteria) this;
         }
 
-        public Criteria andCoupon_idNotEqualTo(Integer value) {
+        public Criteria andCoupon_idNotEqualTo(String value) {
             addCriterion("coupon_id <>", value, "coupon_id");
             return (Criteria) this;
         }
 
-        public Criteria andCoupon_idGreaterThan(Integer value) {
+        public Criteria andCoupon_idGreaterThan(String value) {
             addCriterion("coupon_id >", value, "coupon_id");
             return (Criteria) this;
         }
 
-        public Criteria andCoupon_idGreaterThanOrEqualTo(Integer value) {
+        public Criteria andCoupon_idGreaterThanOrEqualTo(String value) {
             addCriterion("coupon_id >=", value, "coupon_id");
             return (Criteria) this;
         }
 
-        public Criteria andCoupon_idLessThan(Integer value) {
+        public Criteria andCoupon_idLessThan(String value) {
             addCriterion("coupon_id <", value, "coupon_id");
             return (Criteria) this;
         }
 
-        public Criteria andCoupon_idLessThanOrEqualTo(Integer value) {
+        public Criteria andCoupon_idLessThanOrEqualTo(String value) {
             addCriterion("coupon_id <=", value, "coupon_id");
             return (Criteria) this;
         }
 
-        public Criteria andCoupon_idIn(List<Integer> values) {
+        public Criteria andCoupon_idLike(String value) {
+            addCriterion("coupon_id like", value, "coupon_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoupon_idNotLike(String value) {
+            addCriterion("coupon_id not like", value, "coupon_id");
+            return (Criteria) this;
+        }
+
+        public Criteria andCoupon_idIn(List<String> values) {
             addCriterion("coupon_id in", values, "coupon_id");
             return (Criteria) this;
         }
 
-        public Criteria andCoupon_idNotIn(List<Integer> values) {
+        public Criteria andCoupon_idNotIn(List<String> values) {
             addCriterion("coupon_id not in", values, "coupon_id");
             return (Criteria) this;
         }
 
-        public Criteria andCoupon_idBetween(Integer value1, Integer value2) {
+        public Criteria andCoupon_idBetween(String value1, String value2) {
             addCriterion("coupon_id between", value1, value2, "coupon_id");
             return (Criteria) this;
         }
 
-        public Criteria andCoupon_idNotBetween(Integer value1, Integer value2) {
+        public Criteria andCoupon_idNotBetween(String value1, String value2) {
             addCriterion("coupon_id not between", value1, value2, "coupon_id");
             return (Criteria) this;
         }

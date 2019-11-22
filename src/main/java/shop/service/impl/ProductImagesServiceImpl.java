@@ -21,6 +21,7 @@ public class ProductImagesServiceImpl extends BaseServiceImpl<ProductImagesMappe
 
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("异常"+e);
         }
     }
 }

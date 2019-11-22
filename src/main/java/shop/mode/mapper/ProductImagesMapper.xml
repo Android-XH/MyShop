@@ -144,4 +144,11 @@
       pic_url = #{pic_url,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <insert id="insertOfList" parameterType="java.util.ArrayList" useGeneratedKeys="true">
+    insert into product_images (pid, pic_url)
+    values
+    <foreach collection="list" index="index" item="item" separator=",">
+       (#{item.pid,jdbcType=BIGINT}, #{item.pic_url,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
 </mapper>

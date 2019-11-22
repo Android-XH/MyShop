@@ -2,6 +2,7 @@ package shop.service;
 
 import shop.mode.base.BasePOJO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -79,6 +80,7 @@ public interface BaseService extends Service4DAO {
      */
     public List list(Object... paramAndObjects) throws Exception;
     public List selectBySql(String sql) throws Exception;
+    public int insertOfList(ArrayList list) throws Exception;
     /**
      * @param paramAndObjects 同上
      * @return 只返回第一个

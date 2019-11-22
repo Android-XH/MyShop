@@ -13,7 +13,7 @@ public class ProductExtension extends BasePOJO {
     @JoinColumn(pName ="sid",name="sid")
     private ShopUser shop;
     @ManyToOne
-    @JoinColumn(pName ="coupon_id",name="id")
+    @JoinColumn(pName ="coupon_id",name="coupon_id")
     private Coupon coupon;
     @OneToMany
     @JoinColumn(pName ="pid",name="pid")

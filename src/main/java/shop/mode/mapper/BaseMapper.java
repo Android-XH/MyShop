@@ -2,6 +2,7 @@ package shop.mode.mapper;
 
 import shop.mode.Product;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,4 +11,5 @@ import java.util.List;
  */
 public interface BaseMapper<P,E> {
     List<P> selectBySql(String sql);
+    int insertOfList(ArrayList list);
 }
