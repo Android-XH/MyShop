@@ -114,6 +114,23 @@ public class BaseServiceImpl<M, E> extends Service4DAOImpl<M, E> implements Base
                         .invoke(criteria, paramAndObjects[i + 1]);
                 continue;
             }
+            // andIn List
+            if (paramAndObjects[i].toString().endsWith("_in") ) {
+                String column = StringUtils.replace(paramAndObjects[i].toString(), "_in", "");
+                criteria.getClass()
+                        .getMethod("and" + StringUtils.capitalize(column) + "In", paramAndObjects[i + 1].getClass())
+                        .invoke(criteria, paramAndObjects[i + 1]);
+                continue;
+            }
+            // between List
+            if (paramAndObjects[i].toString().endsWith("_between") ) {
+                String column = StringUtils.replace(paramAndObjects[i].toString(), "_between", "");
+                criteria.getClass()
+                        .getMethod("and" + StringUtils.capitalize(column) + "Between",paramAndObjects[i + 1].getClass(),paramAndObjects[i + 2].getClass())
+                        .invoke(criteria, paramAndObjects[i + 1], paramAndObjects[i + 2]);
+                continue;
+            }
+
 
             if (paramAndObjects[i].equals("pagination") && paramAndObjects[i + 1] instanceof Pagination) {
                 pagination = (Pagination) paramAndObjects[i + 1];

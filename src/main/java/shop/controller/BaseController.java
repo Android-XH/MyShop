@@ -12,6 +12,7 @@ import shop.mode.*;
 import shop.service.*;
 import shop.util.Pagination;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -53,33 +54,47 @@ public class BaseController implements BaseControllerInterface{
             productList=productService.selectBySql(baseParam.getSql());
         }else{
             Pagination pagination=baseParam.getPagination();
-            String keyWord=baseParam.getKeyWord();
-            if(StringUtils.isNotEmpty(keyWord)){
-                searchHistoryService.insert(keyWord);
-                if(baseParam.getCategory_item_id()!=0){
-                    productList=productService.list("pagination",pagination,"category_item_id_eq",baseParam.getCategory_item_id(),"key_word_like",keyWord,"order", SortUtil.handleSort(baseParam.getSort()));
-                }else if(baseParam.getCategory_id()!=0){
-                    productList=productService.list("pagination",pagination,"category_id_eq",baseParam.getCategory_id(),"key_word_like",keyWord,"order", SortUtil.handleSort(baseParam.getSort()));
-                }else{
-                    productList=productService.list("pagination",pagination,"key_word_like",keyWord,"title_orLike",keyWord,"order", SortUtil.handleSort(baseParam.getSort()));
+            if(baseParam.getTypes()!=null){
+                List<Long>sids=new ArrayList<>();
+                String []type=baseParam.getTypes().split(",");
+                for(String t:type){
+                    int userType=Integer.valueOf(t);
+                    List<ShopUser>shopUsers= shopUserService.list("user_type_eq",userType);
+                    for(ShopUser shopUser:shopUsers){
+                        sids.add(shopUser.getSid());
+                    }
                 }
-            }else if(baseParam.getId()!=0) {
-                Product product= (Product) productService.get(baseParam.getId());
-                if(product!=null){
-                    long item_id= product.getCategory_item_id();
-                    productList=productService.list("pagination",pagination,"id_notEq",product.getId(),"category_item_id_eq",item_id,"order", SortUtil.handleSort(baseParam.getSort()));
-                }else{
-                    throw new RequestException(RequestCommon.ERROR_PRODUCT_NOT_FOUND);
-                }
+                productList=productService.list("pagination",pagination, "sid_in",sids,"order", SortUtil.handleSort(baseParam.getSort()));
             }else{
-                if(baseParam.getCategory_item_id()!=0){
-                    productList=productService.list("pagination",pagination,"category_item_id_eq",baseParam.getCategory_item_id(),"order", SortUtil.handleSort(baseParam.getSort()));
-                }else if(baseParam.getCategory_id()!=0){
-                    productList=productService.list("pagination",pagination,"category_id_eq",baseParam.getCategory_id(),"order", SortUtil.handleSort(baseParam.getSort()));
+                String keyWord=baseParam.getKeyWord();
+                if(StringUtils.isNotEmpty(keyWord)){
+                    searchHistoryService.insert(keyWord);
+                    if(baseParam.getCategory_item_id()!=0){
+                        productList=productService.list("pagination",pagination,"category_item_id_eq",baseParam.getCategory_item_id(),"key_word_like",keyWord,"order", SortUtil.handleSort(baseParam.getSort()));
+                    }else if(baseParam.getCategory_id()!=0){
+                        productList=productService.list("pagination",pagination,"category_id_eq",baseParam.getCategory_id(),"key_word_like",keyWord,"order", SortUtil.handleSort(baseParam.getSort()));
+                    }else{
+                        productList=productService.list("pagination",pagination,"key_word_like",keyWord,"title_orLike",keyWord,"order", SortUtil.handleSort(baseParam.getSort()));
+                    }
+                }else if(baseParam.getId()!=0) {
+                    Product product= (Product) productService.get(baseParam.getId());
+                    if(product!=null){
+                        long item_id= product.getCategory_item_id();
+                        productList=productService.list("pagination",pagination,"id_notEq",product.getId(),"category_item_id_eq",item_id,"order", SortUtil.handleSort(baseParam.getSort()));
+                    }else{
+                        throw new RequestException(RequestCommon.ERROR_PRODUCT_NOT_FOUND);
+                    }
                 }else{
-                    productList=productService.list("pagination",pagination,"order", SortUtil.handleSort(baseParam.getSort()));
+                    if(baseParam.getCategory_item_id()!=0){
+                        productList=productService.list("pagination",pagination,"category_item_id_eq",baseParam.getCategory_item_id(),"order", SortUtil.handleSort(baseParam.getSort()));
+                    }else if(baseParam.getCategory_id()!=0){
+                        productList=productService.list("pagination",pagination,"category_id_eq",baseParam.getCategory_id(),"order", SortUtil.handleSort(baseParam.getSort()));
+                    }else{
+                        productList=productService.list("pagination",pagination,"order", SortUtil.handleSort(baseParam.getSort()));
+                    }
                 }
             }
+
             baseParam.setPagination(pagination);
         }
         return productList;

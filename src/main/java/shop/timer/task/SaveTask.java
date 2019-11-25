@@ -83,7 +83,6 @@ public class SaveTask implements Callable<Integer> {
                     productImages.add(productImage);
                 }
             }
-
         }
         try {
             couponService.insertOfList(couponList);

@@ -3,6 +3,8 @@ package shop.controller;
 import org.apache.commons.lang3.StringUtils;
 import shop.util.Pagination;
 
+import java.util.Arrays;
+
 public class BaseParam {
     private String keyWord;//搜索关键词
     private int id;//条目ID
@@ -14,6 +16,35 @@ public class BaseParam {
     private String sql;
     private int page;
     private int size;
+    private long minPrice;
+    private long maxPrice;
+    private String types;
+
+
+    public long getMinPrice() {
+        return minPrice;
+    }
+
+    public void setMinPrice(long minPrice) {
+        this.minPrice = minPrice;
+    }
+
+    public long getMaxPrice() {
+        return maxPrice;
+    }
+
+    public void setMaxPrice(long maxPrice) {
+        this.maxPrice = maxPrice;
+    }
+
+    public String getTypes() {
+        return types;
+    }
+
+    public void setTypes(String types) {
+        this.types = types;
+    }
+
     private Pagination pagination;
 
     public int getPage() {
@@ -146,6 +177,9 @@ public class BaseParam {
                 ", sql='" + sql + '\'' +
                 ", page=" + page +
                 ", size=" + size +
+                ", minPrice=" + minPrice +
+                ", maxPrice=" + maxPrice +
+                ", types=" + types+
                 ", pagination=" + pagination +
                 '}';
     }
