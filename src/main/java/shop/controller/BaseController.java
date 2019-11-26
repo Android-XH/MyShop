@@ -76,15 +76,6 @@ public class BaseController implements BaseControllerInterface {
             if(baseParam.getMaxPrice()!=0f){
                 criteria.andPriceBetween(baseParam.getMinPrice(),baseParam.getMaxPrice());
             }
-            //根据关键词返回
-            String keyWord = baseParam.getKeyWord();
-            if (StringUtils.isNotEmpty(keyWord)) {
-                searchHistoryService.insert(keyWord);
-                criteria.andKey_wordLike("%"+keyWord+"%");
-                ProductExample.Criteria criteria3 = example.createCriteria();
-                criteria3.andShort_titleLike("%"+keyWord+"%");
-                example.or(criteria3);
-            }
             //根据传入商品ID返回类似商品
             if (baseParam.getId() != 0) {
                 Product product = (Product) productService.get(baseParam.getId());
@@ -104,6 +95,12 @@ public class BaseController implements BaseControllerInterface {
                 criteria.andCategory_idEqualTo(baseParam.getCategory_id());
             }
             example.setOrderByClause(SortUtil.handleSort(baseParam.getSort()));
+            //根据关键词返回
+            String keyWord = baseParam.getKeyWord();
+            if (StringUtils.isNotEmpty(keyWord)) {
+                searchHistoryService.insert(keyWord);
+                criteria.andKey_wordLike("%"+keyWord+"%");
+            }
             Pagination pagination = baseParam.getPagination();
             productList = productService.getList(example, 2, pagination);
             baseParam.setPagination(pagination);
