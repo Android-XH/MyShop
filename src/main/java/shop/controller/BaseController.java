@@ -11,6 +11,7 @@ import shop.exception.RequestException;
 import shop.mode.*;
 import shop.service.*;
 import shop.util.Pagination;
+import shop.util.TimeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +50,7 @@ public class BaseController implements BaseControllerInterface {
 
     @Override
     public List<Product> baseProductList(BaseParam baseParam) throws Exception {
+        long start=System.currentTimeMillis();
         List<Product> productList;
         if (StringUtils.isNotEmpty(baseParam.getSql())) {
             productList = productService.selectBySql(baseParam.getSql());
@@ -105,6 +107,8 @@ public class BaseController implements BaseControllerInterface {
             productList = productService.getList(example, 2, pagination);
             baseParam.setPagination(pagination);
         }
+        long end=System.currentTimeMillis();
+        System.out.println("耗时："+TimeUtil.getTime(end-start));
         return productList;
     }
 
