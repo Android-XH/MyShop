@@ -70,12 +70,10 @@ public class BaseController implements BaseControllerInterface {
             }
             //返回价格以上的商品
             if(baseParam.getMinPrice()!=0f&&baseParam.getMaxPrice()==0f){
-                System.out.println("设置最小值为"+baseParam.getMinPrice());
                 criteria.andPriceGreaterThanOrEqualTo(baseParam.getMinPrice());
             }
             //返回价格以下的商品
             if(baseParam.getMaxPrice()!=0f){
-                System.out.println("设置价格区间值为"+baseParam.getMinPrice()+"至"+baseParam.getMaxPrice());
                 criteria.andPriceBetween(baseParam.getMinPrice(),baseParam.getMaxPrice());
             }
             //根据关键词返回
