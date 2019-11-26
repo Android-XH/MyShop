@@ -39,7 +39,7 @@ public class SaveTask implements Callable<Integer> {
             shopUser.setNick(data.getNick());
             shopUser.setSid(data.getSellerId());
             shopUser.setShop_title(data.getShopTitle());
-            shopUser.setUser_type(data.getUserType());
+            shopUser.setUser_type(Math.toIntExact(data.getUserType()));
             shopUser.setProvcity(data.getProvcity());
             shopUser.setShop_dsr(data.getShopDsr());
             shopUserList.add(shopUser);

@@ -16,24 +16,23 @@ public class BaseParam {
     private String sql;
     private int page;
     private int size;
-    private long minPrice;
-    private long maxPrice;
+    private float minPrice;
+    private float maxPrice;
     private String types;
 
-
-    public long getMinPrice() {
+    public float getMinPrice() {
         return minPrice;
     }
 
-    public void setMinPrice(long minPrice) {
+    public void setMinPrice(float minPrice) {
         this.minPrice = minPrice;
     }
 
-    public long getMaxPrice() {
+    public float getMaxPrice() {
         return maxPrice;
     }
 
-    public void setMaxPrice(long maxPrice) {
+    public void setMaxPrice(float maxPrice) {
         this.maxPrice = maxPrice;
     }
 
@@ -74,9 +73,9 @@ public class BaseParam {
     public Pagination getPagination() {
         if(pagination==null){
             pagination=new Pagination();
+            pagination.setPage(page);
+            pagination.setSize(size);
         }
-        pagination.setPage(page);
-        pagination.setSize(size);
         pagination.setParam(getParam());
         return pagination;
     }

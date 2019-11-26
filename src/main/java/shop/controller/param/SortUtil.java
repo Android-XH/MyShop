@@ -25,7 +25,7 @@ public class SortUtil {
                 column = "price";
                 break;
             default:
-                column = "id";
+                column = "category_item_id";
                 break;
         }
         String res = String.format("%s %s ",column,order);

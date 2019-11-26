@@ -58,20 +58,16 @@ public class ShowController extends ShowBaseController implements ShowController
     @Override
     public String category(Integer categoryID, Integer categoryItemID,Integer page,String sort,Model mode) throws Exception {
         BaseParam baseParam=new BaseParam();
-        if(categoryID!=null){
-            baseParam.setCategory_id(categoryID);
-        }
-        if(categoryItemID!=null){
-            baseParam.setCategory_item_id(categoryItemID);
-        }
-        if(StringUtils.isNotEmpty(sort)){
-            baseParam.setSort(sort);
-        }
+        baseParam.setCategory_id(categoryID==null?0:categoryID);
+        baseParam.setCategory_item_id(categoryItemID==null?0:categoryItemID);
+        baseParam.setSort(StringUtils.isNotEmpty(sort)?sort:"");
         Pagination pagination=baseParam.getPagination();
         pagination.setPage(page==null?0:page);
         pagination.setSize(20);
         baseParam.setPagination(pagination);
-        mode.addAttribute("products",baseProductList(baseParam));
+
+        List<Product>productList=baseProductList(baseParam);
+        mode.addAttribute("products",productList);
         mode.addAttribute("pagination",baseParam.getPagination());
         return "category";
     }

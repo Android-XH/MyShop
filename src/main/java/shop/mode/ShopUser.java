@@ -47,7 +47,7 @@ public class ShopUser extends ShopUserExtension implements shop.mode.ORM.POJOMap
      *
      * @mbg.generated
      */
-    private Long user_type;
+    private Integer user_type;
 
     /**
      *
@@ -162,7 +162,7 @@ public class ShopUser extends ShopUserExtension implements shop.mode.ORM.POJOMap
      *
      * @mbg.generated
      */
-    public Long getUser_type() {
+    public Integer getUser_type() {
         return user_type;
     }
 
@@ -174,7 +174,7 @@ public class ShopUser extends ShopUserExtension implements shop.mode.ORM.POJOMap
      *
      * @mbg.generated
      */
-    public void setUser_type(Long user_type) {
+    public void setUser_type(Integer user_type) {
         this.user_type = user_type;
     }
 

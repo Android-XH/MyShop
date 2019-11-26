@@ -25,7 +25,6 @@ import java.util.List;
  */
 
 public class BaseServiceImpl<M, E> extends Service4DAOImpl<M, E> implements BaseService {
-
     /**
      * @see BaseService
      */
@@ -33,7 +32,6 @@ public class BaseServiceImpl<M, E> extends Service4DAOImpl<M, E> implements Base
     public List list(Object... paramAndObjects) throws Exception {
         BaseExample example = getExample();
         Object criteria = example.createCriteria();
-
         if (paramAndObjects.length % 2 != 0) {
             return null;
         }
@@ -51,21 +49,22 @@ public class BaseServiceImpl<M, E> extends Service4DAOImpl<M, E> implements Base
                 depth = (Integer) paramAndObjects[i + 1];
                 continue;
             }
-            if (paramAndObjects[i].toString().endsWith("_like") && paramAndObjects[i + 1] instanceof String) {
+            if (paramAndObjects[i].toString().endsWith("_like")) {
                 String column = StringUtils.replace(paramAndObjects[i].toString(), "_like", "");
                 criteria.getClass()
-                        .getMethod("and" + StringUtils.capitalize(column) + "Like", String.class)
+                        .getMethod("and" + StringUtils.capitalize(column) + "Like",paramAndObjects[i + 1].getClass())
                         .invoke(criteria, "%" + paramAndObjects[i + 1].toString() + "%");
                 continue;
             }
-            if (paramAndObjects[i].toString().endsWith("_orLike") && paramAndObjects[i + 1] instanceof String) {
+            if (paramAndObjects[i].toString().endsWith("_orLike") ) {
                 String column = StringUtils.replace(paramAndObjects[i].toString(), "_orLike", "");
                 Object criteria2 =  example.getClass().getMethod("or",null).invoke(example);
                 criteria2.getClass()
-                        .getMethod("and" + StringUtils.capitalize(column) + "Like", String.class)
+                        .getMethod("and" + StringUtils.capitalize(column) + "Like", paramAndObjects[i + 1].getClass())
                         .invoke(criteria2, "%" + paramAndObjects[i + 1].toString() + "%");
                 continue;
             }
+
             //andIdNotEqualTo
             if (paramAndObjects[i].toString().endsWith("_notEq") ) {
                 String column = StringUtils.replace(paramAndObjects[i].toString(), "_notEq", "");
@@ -99,7 +98,7 @@ public class BaseServiceImpl<M, E> extends Service4DAOImpl<M, E> implements Base
                 continue;
             }
             // <value
-            if (paramAndObjects[i].toString().endsWith("_lt") ) {
+            if (paramAndObjects[i].toString().endsWith("_lt")) {
                 String column = StringUtils.replace(paramAndObjects[i].toString(), "_lt", "");
                 criteria.getClass()
                         .getMethod("and" + StringUtils.capitalize(column) + "LessThan", paramAndObjects[i + 1].getClass())
@@ -130,13 +129,15 @@ public class BaseServiceImpl<M, E> extends Service4DAOImpl<M, E> implements Base
                         .invoke(criteria, paramAndObjects[i + 1], paramAndObjects[i + 2]);
                 continue;
             }
-
-
             if (paramAndObjects[i].equals("pagination") && paramAndObjects[i + 1] instanceof Pagination) {
                 pagination = (Pagination) paramAndObjects[i + 1];
                 continue;
             }
         }
+        return getList(example,depth,pagination);
+    }
+    @Override
+    public List getList(BaseExample example,int depth,Pagination pagination) throws Exception{
         List list;
         if (pagination != null) {
             PageHelper.offsetPage(pagination.getStart(), pagination.getSize());

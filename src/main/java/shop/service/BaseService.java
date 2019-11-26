@@ -1,6 +1,8 @@
 package shop.service;
 
+import shop.mode.base.BaseExample;
 import shop.mode.base.BasePOJO;
+import shop.util.Pagination;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,6 +81,7 @@ public interface BaseService extends Service4DAO {
      * @see shop.service.impl.BaseServiceImpl
      */
     public List list(Object... paramAndObjects) throws Exception;
+    public List getList(BaseExample ex, int depth, Pagination pagination) throws Exception;
     public List selectBySql(String sql) throws Exception;
     public int insertOfList(ArrayList list) throws Exception;
     /**

@@ -525,52 +525,52 @@ public class ShopUserExample implements BaseExample {
             return (Criteria) this;
         }
 
-        public Criteria andUser_typeEqualTo(Long value) {
+        public Criteria andUser_typeEqualTo(Integer value) {
             addCriterion("user_type =", value, "user_type");
             return (Criteria) this;
         }
 
-        public Criteria andUser_typeNotEqualTo(Long value) {
+        public Criteria andUser_typeNotEqualTo(Integer value) {
             addCriterion("user_type <>", value, "user_type");
             return (Criteria) this;
         }
 
-        public Criteria andUser_typeGreaterThan(Long value) {
+        public Criteria andUser_typeGreaterThan(Integer value) {
             addCriterion("user_type >", value, "user_type");
             return (Criteria) this;
         }
 
-        public Criteria andUser_typeGreaterThanOrEqualTo(Long value) {
+        public Criteria andUser_typeGreaterThanOrEqualTo(Integer value) {
             addCriterion("user_type >=", value, "user_type");
             return (Criteria) this;
         }
 
-        public Criteria andUser_typeLessThan(Long value) {
+        public Criteria andUser_typeLessThan(Integer value) {
             addCriterion("user_type <", value, "user_type");
             return (Criteria) this;
         }
 
-        public Criteria andUser_typeLessThanOrEqualTo(Long value) {
+        public Criteria andUser_typeLessThanOrEqualTo(Integer value) {
             addCriterion("user_type <=", value, "user_type");
             return (Criteria) this;
         }
 
-        public Criteria andUser_typeIn(List<Long> values) {
+        public Criteria andUser_typeIn(List<Integer> values) {
             addCriterion("user_type in", values, "user_type");
             return (Criteria) this;
         }
 
-        public Criteria andUser_typeNotIn(List<Long> values) {
+        public Criteria andUser_typeNotIn(List<Integer> values) {
             addCriterion("user_type not in", values, "user_type");
             return (Criteria) this;
         }
 
-        public Criteria andUser_typeBetween(Long value1, Long value2) {
+        public Criteria andUser_typeBetween(Integer value1, Integer value2) {
             addCriterion("user_type between", value1, value2, "user_type");
             return (Criteria) this;
         }
 
-        public Criteria andUser_typeNotBetween(Long value1, Long value2) {
+        public Criteria andUser_typeNotBetween(Integer value1, Integer value2) {
             addCriterion("user_type not between", value1, value2, "user_type");
             return (Criteria) this;
         }
