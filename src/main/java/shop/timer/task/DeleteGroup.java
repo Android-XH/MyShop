@@ -2,10 +2,12 @@ package shop.timer.task;
 
 import shop.mode.Coupon;
 import shop.mode.Product;
+import shop.mode.ProductExample;
 import shop.mode.ShopUser;
 import shop.service.*;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -29,7 +31,7 @@ public class DeleteGroup {
             List<Coupon>couponList=couponService.list("coupon_end_time_lt",time);
             for(Coupon coupon :couponList){
                 couponService.delete(coupon);
-                List<Product>productList=productService.list("coupon_id_eq",coupon.getId());
+                List<Product>productList=productService.list("coupon_id_eq",coupon.getCoupon_id());
                 for(Product product:productList){
                     productService.delete(product);
                 }

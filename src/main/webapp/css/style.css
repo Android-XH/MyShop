@@ -54,9 +54,8 @@ nav.top a:hover{
         left:-15px;
     }
 }
-
 .pagination_bar {
-    width:1190px;
+    width:100%;
     display: block;
     text-align:center;
     margin:0 auto;
@@ -210,7 +209,6 @@ header.index-top img{
     position: absolute;
     left:-10px;
     top: -45px;
-
     width:240px;
     height:130px;
 }
@@ -736,7 +734,7 @@ header.product .search input{
     width:367px; /*和 margin 1 + button 110填满search*/
     border: 0;/*取消边框*/
     margin:3px 0 3px 3px;/*用背景色做出一个边框 */
-    float:left; /*不浮动有诡异的上 margin*/
+    /*float:left; !*不浮动有诡异的上 margin*!*/
     padding: 3px 0 0 5px; /*调节提示文字位置*/
     font-size: 15px;
     outline: none; /*兼容性设置*/

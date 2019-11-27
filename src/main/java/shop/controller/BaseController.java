@@ -50,15 +50,27 @@ public class BaseController implements BaseControllerInterface {
 
     @Override
     public List<Product> baseProductList(BaseParam baseParam) throws Exception {
-        long start=System.currentTimeMillis();
+        long start = System.currentTimeMillis();
         List<Product> productList;
         if (StringUtils.isNotEmpty(baseParam.getSql())) {
             productList = productService.selectBySql(baseParam.getSql());
         } else {
             ProductExample example = new ProductExample();
             ProductExample.Criteria criteria = example.createCriteria();
+            ProductExample.Criteria criteria2 = null;
+            ProductExample.Criteria criteria3 = null;
+            //根据关键词返回
+            String keyWord = baseParam.getKeyWord();
+            if (StringUtils.isNotEmpty(keyWord)) {
+                searchHistoryService.insert(keyWord);
+                criteria2 = example.or();
+                criteria3 = example.or();
+                criteria.andKey_wordLike("%" + keyWord + "%");
+                criteria2.andTitleLike("%" + keyWord + "%");
+                criteria3.andShort_titleLike("%" + keyWord + "%");
+            }
             //是否根据平台返回
-            if (baseParam.getTypes() != null) {
+            if (baseParam.getTypes() != null&&baseParam.getTypes().length()==1) {
                 List<Long> sids = new ArrayList<>();
                 String[] type = baseParam.getTypes().split(",");
                 for (String t : type) {
@@ -69,20 +81,36 @@ public class BaseController implements BaseControllerInterface {
                     }
                 }
                 criteria.andSidIn(sids);
+                if (null != criteria2&&null!=criteria3) {
+                    criteria2.andSidIn(sids);
+                    criteria3.andSidIn(sids);
+                }
             }
             //返回价格以上的商品
-            if(baseParam.getMinPrice()!=0f&&baseParam.getMaxPrice()==0f){
+            if (baseParam.getMinPrice() != 0f && baseParam.getMaxPrice() == 0f) {
                 criteria.andPriceGreaterThanOrEqualTo(baseParam.getMinPrice());
+                if (null != criteria2&&null!=criteria3) {
+                    criteria2.andPriceGreaterThanOrEqualTo(baseParam.getMinPrice());
+                    criteria3.andPriceGreaterThanOrEqualTo(baseParam.getMinPrice());
+                }
             }
             //返回价格以下的商品
-            if(baseParam.getMaxPrice()!=0f){
-                criteria.andPriceBetween(baseParam.getMinPrice(),baseParam.getMaxPrice());
+            if (baseParam.getMaxPrice() != 0f) {
+                criteria.andPriceBetween(baseParam.getMinPrice(), baseParam.getMaxPrice());
+                if (null != criteria2&&null!=criteria3) {
+                    criteria2.andPriceBetween(baseParam.getMinPrice(), baseParam.getMaxPrice());
+                    criteria3.andPriceBetween(baseParam.getMinPrice(), baseParam.getMaxPrice());
+                }
             }
             //根据传入商品ID返回类似商品
             if (baseParam.getId() != 0) {
                 Product product = (Product) productService.get(baseParam.getId());
                 if (product != null) {
                     criteria.andIdNotEqualTo(product.getId());
+                    if (null != criteria2&&null!=criteria3) {
+                        criteria2.andIdNotEqualTo(product.getId());
+                        criteria3.andIdNotEqualTo(product.getId());
+                    }
                     baseParam.setCategory_item_id(product.getCategory_item_id());
                 } else {
                     throw new RequestException(RequestCommon.ERROR_PRODUCT_NOT_FOUND);
@@ -91,26 +119,26 @@ public class BaseController implements BaseControllerInterface {
             //返回同类商品
             if (baseParam.getCategory_item_id() != 0) {
                 criteria.andCategory_item_idEqualTo(baseParam.getCategory_item_id());
+                if (null != criteria2&&null!=criteria3) {
+                    criteria2.andCategory_item_idEqualTo(baseParam.getCategory_item_id());
+                    criteria3.andCategory_item_idEqualTo(baseParam.getCategory_item_id());
+                }
             }
             //返回同一大类下的商品
             if (baseParam.getCategory_id() != 0) {
                 criteria.andCategory_idEqualTo(baseParam.getCategory_id());
+                if (null != criteria2&&null!=criteria3) {
+                    criteria2.andCategory_idEqualTo(baseParam.getCategory_id());
+                    criteria3.andCategory_idEqualTo(baseParam.getCategory_id());
+                }
             }
             example.setOrderByClause(SortUtil.handleSort(baseParam.getSort()));
-            //根据关键词返回
-            String keyWord = baseParam.getKeyWord();
-            if (StringUtils.isNotEmpty(keyWord)) {
-                searchHistoryService.insert(keyWord);
-                criteria.andKey_wordLike("%"+keyWord+"%");
-                ProductExample.Criteria criteria2=example.or();
-                criteria2.andTitleLike(keyWord);
-            }
             Pagination pagination = baseParam.getPagination();
             productList = productService.getList(example, 2, pagination);
             baseParam.setPagination(pagination);
         }
-        long end=System.currentTimeMillis();
-        System.out.println("耗时："+TimeUtil.getTime(end-start));
+        long end = System.currentTimeMillis();
+        System.out.println("耗时：" + TimeUtil.getTime(end - start));
         return productList;
     }
 

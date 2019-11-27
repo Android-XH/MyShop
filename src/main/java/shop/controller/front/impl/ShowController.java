@@ -35,7 +35,6 @@ public class ShowController extends ShowBaseController implements ShowController
             param.setSql(sql);
             menuCategory.setProducts(baseProductList(param));
         }
-
         mode.addAttribute("recommends",recommends);
         return "home";
     }

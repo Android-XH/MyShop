@@ -3,13 +3,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix='fmt' %>
 <script>
     var msg = "${msg}";
-    if(msg !== ""){
+    if (msg !== "") {
         alert(msg);
     }
     $(function () {
-        $("#refer").val(window.location.href ===""?"/":window.location.href);
+        $("#refer").val(window.location.href === "" ? "/" : window.location.href);
         $("#form").submit(function () {
-            if($("#password").val() == "" || $("#name").val() == ""){
+            if ($("#password").val() == "" || $("#name").val() == "") {
                 alert("用户名或密码为空");
                 return false;
             }
@@ -24,7 +24,8 @@
                 <div class="login-content">
                     <form method="post" action="loginIn" id="form">
                         <div class="login-frame">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
                             <div class="login-tip">密码登录</div>
                             <div class="login-input">
                     <span class="login-input-icon">
@@ -92,10 +93,10 @@
 <%--            </div>--%>
 <%--            <div class="desc-column">--%>
 <%--                <span class="desc-column-title">手机版</span>--%>
-<%--                <a href="#nowhere"><img src="img/shouji.png"></a>--%>
+<%--                <a href="#nowhere"><img src="img/phoneApp.png"></a>--%>
 <%--            </div>--%>
 <%--        </div>--%>
-<%--    </div>--%>
+        <%--    </div>--%>
 </footer>
 
 <footer class="footer-bottom">
@@ -108,6 +109,10 @@
                 <a href="#nowhere">帮助中心</a>
                 <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=691849343">联系我们</a>
                 <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=691849343">网站合作</a>
+                <div class="white-link">
+                    <span class="desc-column-title">手机版</span>
+                    <a href="#nowhere"><img src="img/phoneApp.png"></a>
+                </div>
             </div>
             <div class="white-link">
                 <a href="https://re.1688.com"> 阿里巴巴集团</a><span class="slash">|</span>

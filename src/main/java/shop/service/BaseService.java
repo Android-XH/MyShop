@@ -40,7 +40,6 @@ public interface BaseService extends Service4DAO {
     public void delete(BasePOJO object) throws Exception;
     public void deleteById(int id)throws Exception;
 
-
     /**
      * @param clazz 指定一个表，形式为pojo的类对象
      * @param id    要获取的id
