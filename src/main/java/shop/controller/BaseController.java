@@ -100,6 +100,8 @@ public class BaseController implements BaseControllerInterface {
             if (StringUtils.isNotEmpty(keyWord)) {
                 searchHistoryService.insert(keyWord);
                 criteria.andKey_wordLike("%"+keyWord+"%");
+                ProductExample.Criteria criteria2=example.or();
+                criteria2.andTitleLike(keyWord);
             }
             Pagination pagination = baseParam.getPagination();
             productList = productService.getList(example, 2, pagination);
