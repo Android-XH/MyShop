@@ -57,6 +57,7 @@ public class ShowController extends ShowBaseController implements ShowController
 
     @Override
     public String category(Integer categoryID, Integer categoryItemID,Integer page,String sort,Model mode) throws Exception {
+        long start=System.currentTimeMillis();
         BaseParam baseParam=new BaseParam();
         baseParam.setCategory_id(categoryID==null?0:categoryID);
         baseParam.setCategory_item_id(categoryItemID==null?0:categoryItemID);
@@ -65,10 +66,11 @@ public class ShowController extends ShowBaseController implements ShowController
         pagination.setPage(page==null?0:page);
         pagination.setSize(20);
         baseParam.setPagination(pagination);
-
         List<Product>productList=baseProductList(baseParam);
         mode.addAttribute("products",productList);
         mode.addAttribute("pagination",baseParam.getPagination());
+        long end=System.currentTimeMillis();
+        System.out.println(TimeUtil.getTime(end-start));
         return "category";
     }
 
