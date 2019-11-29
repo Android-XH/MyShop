@@ -19,6 +19,15 @@ public class BaseParam {
     private float minPrice;
     private float maxPrice;
     private String types;
+    private int menu_id;
+
+    public int getMenu_id() {
+        return menu_id;
+    }
+
+    public void setMenu_id(int menu_id) {
+        this.menu_id = menu_id;
+    }
 
     public float getMinPrice() {
         return minPrice;

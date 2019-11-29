@@ -132,10 +132,23 @@ public class BaseController implements BaseControllerInterface {
                     criteria3.andCategory_idEqualTo(baseParam.getCategory_id());
                 }
             }
+            if(baseParam.getMenu_id()!=0){
+                List<Category>categoryList=categoryService.list("menu_id_eq",baseParam.getMenu_id());
+                List<Long>categoryIDS=new ArrayList<>();
+                for(Category category:categoryList){
+                    categoryIDS.add(category.getCategory_id());
+                }
+                criteria.andCategory_idIn(categoryIDS);
+                if (null != criteria2&&null!=criteria3) {
+                    criteria2.andCategory_idIn(categoryIDS);
+                    criteria3.andCategory_idIn(categoryIDS);
+                }
+            }
             example.setOrderByClause(SortUtil.handleSort(baseParam.getSort()));
             Pagination pagination = baseParam.getPagination();
             productList = productService.getList(example, 2, pagination);
             baseParam.setPagination(pagination);
+
         }
         long end = System.currentTimeMillis();
         System.out.println("耗时：" + TimeUtil.getTime(end - start));
