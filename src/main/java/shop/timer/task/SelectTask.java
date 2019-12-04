@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 //任务线程类
 public  class SelectTask implements Callable<List<TbkDgMaterialOptionalResponse.MapData>> {
     private final long PAGE_SIZE=100;
-    private final long TOTAL_SIZE=100;
+    private final long TOTAL_SIZE=500;
     TaobaoClient client;
     Category category;
     long adzoneID;

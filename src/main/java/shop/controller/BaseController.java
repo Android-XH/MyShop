@@ -63,6 +63,7 @@ public class BaseController implements BaseControllerInterface {
             String keyWord = baseParam.getKeyWord();
             if (StringUtils.isNotEmpty(keyWord)) {
                 searchHistoryService.insert(keyWord);
+                keyWord=keyWord.trim();
                 criteria2 = example.or();
                 criteria3 = example.or();
                 criteria.andKey_wordLike("%" + keyWord + "%");
@@ -144,7 +145,9 @@ public class BaseController implements BaseControllerInterface {
                     criteria3.andCategory_idIn(categoryIDS);
                 }
             }
-            example.setOrderByClause(SortUtil.handleSort(baseParam.getSort()));
+            if(baseParam.getSort()!=null){
+                example.setOrderByClause(SortUtil.handleSort(baseParam.getSort()));
+            }
             Pagination pagination = baseParam.getPagination();
             productList = productService.getList(example, 2, pagination);
             baseParam.setPagination(pagination);

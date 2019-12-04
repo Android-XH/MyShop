@@ -34,8 +34,12 @@ public class SaveTask implements Callable<Integer> {
         ArrayList<ShopUser> shopUserList = new ArrayList<>(size);
         ArrayList<Coupon> couponList = new ArrayList<>(size);
         ArrayList<Product> productList = new ArrayList<>(size);
+        ShopUser shopUser = null;
+        Coupon coupon = null;
+        Product product = null;
+        ProductImages productImage = null;
         for (TbkDgMaterialOptionalResponse.MapData data : dataList) {
-            ShopUser shopUser = new ShopUser();
+            shopUser = new ShopUser();
             shopUser.setNick(data.getNick());
             shopUser.setSid(data.getSellerId());
             shopUser.setShop_title(data.getShopTitle());
@@ -44,7 +48,7 @@ public class SaveTask implements Callable<Integer> {
             shopUser.setShop_dsr(data.getShopDsr());
             shopUserList.add(shopUser);
 
-            Coupon coupon = new Coupon();
+            coupon = new Coupon();
             coupon.setCoupon_id(data.getCouponId());
             coupon.setCoupon_total_count(data.getCouponTotalCount());
             coupon.setCoupon_remain_count(data.getCouponRemainCount());
@@ -56,7 +60,7 @@ public class SaveTask implements Callable<Integer> {
             coupon.setCoupon_start_fee(data.getCouponStartFee());
             couponList.add(coupon);
 
-            Product product = new Product();
+            product = new Product();
             product.setPid(data.getItemId());
             product.setCoupon_id(data.getCouponId());
             product.setCategory_id(data.getLevelOneCategoryId());
@@ -77,7 +81,7 @@ public class SaveTask implements Callable<Integer> {
             productImagesService.deleteByPid(data.getItemId());
             if (data.getSmallImages() != null) {
                 for (String src : data.getSmallImages()) {
-                    ProductImages productImage = new ProductImages();
+                    productImage = new ProductImages();
                     productImage.setPic_url(src);
                     productImage.setPid(data.getItemId());
                     productImages.add(productImage);
@@ -94,6 +98,10 @@ public class SaveTask implements Callable<Integer> {
             System.out.println("存储异常" + e);
         }
         System.out.println("存储完成，垃圾回收");
+        shopUser = null;
+        coupon = null;
+        product = null;
+        productImage = null;
         dataList.clear();
         dataList = null;
         System.gc();

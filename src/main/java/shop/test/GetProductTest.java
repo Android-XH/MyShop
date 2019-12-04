@@ -59,6 +59,7 @@ public class GetProductTest extends AbstractJUnit4SpringContextTests {
 
     @Test
     public void getProductFromTaoBao(){
+        new DeleteGroup(productService,couponService,shopUserService).run();
         new GetProducts(configService,productService,productImagesService,couponService,shopUserService,categoryService).run();
     }
 

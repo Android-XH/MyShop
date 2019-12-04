@@ -142,7 +142,6 @@ public class BaseParam {
     }
 
     public String getSort() {
-//        return sort;
         return StringUtils.substringBefore(sort,",");
     }
 
