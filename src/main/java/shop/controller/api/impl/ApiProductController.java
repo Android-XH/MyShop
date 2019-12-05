@@ -27,7 +27,6 @@ public class ApiProductController extends ApiBaseController implements ApiProduc
     @Override
     public RequestBean test() throws Exception {
       return baseTest();
-
     }
 
     @Override
