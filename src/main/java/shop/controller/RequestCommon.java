@@ -23,8 +23,10 @@ public enum RequestCommon {
     ERROR_ID_NOT_FOUND(304,"该对象不存在或已删除！"),
 
     ERR_AUTH(401,"非法访问，没有权限"),
+    AUTH_ERR(400,"Token无效"),
     AUTH_RATE(402,"用户权限不足，请联系管理员！"),
     AUTH_MISSING(403,"用户未登陆，请先登录！"),
+    AUTH_TIME_OUT(403,"用户Token已失效！"),
     USER_MISSING(404,"该用户不存在！"),
     ERR_USER_PASS_WORD(405,"用户名或密码错误！");
 
