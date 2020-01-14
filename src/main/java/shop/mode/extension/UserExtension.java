@@ -5,6 +5,8 @@ import shop.annotation.ORMAnnotation.Enumerated;
 import shop.mode.base.BasePOJO;
 
 public class UserExtension extends BasePOJO {
+    private String token;
+
     @Enumerated(var = "group_")
     private Group group;
 
@@ -14,5 +16,13 @@ public class UserExtension extends BasePOJO {
 
     public void setGroup(Group group) {
         this.group = group;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }

@@ -58,7 +58,7 @@ public class BaseServiceImpl<M, E> extends Service4DAOImpl<M, E> implements Base
             }
             if (paramAndObjects[i].toString().endsWith("_orLike") ) {
                 String column = StringUtils.replace(paramAndObjects[i].toString(), "_orLike", "");
-                Object criteria2 =  example.getClass().getMethod("or",null).invoke(example);
+                Object criteria2 =  example.getClass().getMethod("or").invoke(example);
                 criteria2.getClass()
                         .getMethod("and" + StringUtils.capitalize(column) + "Like", paramAndObjects[i + 1].getClass())
                         .invoke(criteria2, "%" + paramAndObjects[i + 1].toString() + "%");

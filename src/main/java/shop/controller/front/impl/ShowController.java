@@ -3,33 +3,28 @@ package shop.controller.front.impl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import shop.controller.BaseParam;
+import shop.controller.param.ProductParam;
 import shop.controller.front.ShowBaseController;
 import shop.controller.front.ShowControllerInterface;
-import shop.mode.Category;
-import shop.mode.CategoryItem;
 import shop.mode.MenuCategory;
 import shop.mode.Product;
 import shop.util.Pagination;
-import shop.util.TimeUtil;
 
-import java.sql.Time;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class ShowController extends ShowBaseController implements ShowControllerInterface {
     @Override
     public String home(Model mode) throws Exception {
-        BaseParam baseParam=new BaseParam();
-        Pagination pagination = baseParam.getPagination();
+        ProductParam productParam =new ProductParam();
+        Pagination pagination = productParam.getPagination();
         pagination.setSize(20);
-        baseParam.setPagination(pagination);
-        List<MenuCategory>menuCategories=baseMenuCategoryList(baseParam);
+        productParam.setPagination(pagination);
+        List<MenuCategory>menuCategories=baseMenuCategoryList(productParam);
         mode.addAttribute("categories",menuCategories);
-        baseParam.setRecommend(1);
-        List<MenuCategory> recommends= baseMenuCategoryList(baseParam);
-        BaseParam param=new BaseParam();
+        productParam.setRecommend(1);
+        List<MenuCategory> recommends= baseMenuCategoryList(productParam);
+        ProductParam param=new ProductParam();
         for(MenuCategory menuCategory:recommends){
             String sql="SELECT * FROM product WHERE  category_id  IN (SELECT category_id FROM category where menu_id = "+menuCategory.getId()+" ) limit 10;";
             param.setSql(sql);
@@ -41,43 +36,41 @@ public class ShowController extends ShowBaseController implements ShowController
 
     @Override
     public String search(String keyword, String sort,Integer page, Model mode) throws Exception {
-        BaseParam baseParam=new BaseParam();
-        baseParam.setKeyWord(keyword);
-        baseParam.setSort(sort);
-        Pagination pagination=baseParam.getPagination();
+        ProductParam productParam =new ProductParam();
+        productParam.setKeyWord(keyword);
+        productParam.setSort(sort);
+        Pagination pagination= productParam.getPagination();
         pagination.setPage(page==null?0:page);
         pagination.setSize(20);
-        baseParam.setPagination(pagination);
-        mode.addAttribute("products",baseProductList(baseParam));
+        productParam.setPagination(pagination);
+        mode.addAttribute("products",baseProductList(productParam));
         mode.addAttribute("keyword",keyword);
-        mode.addAttribute("pagination",baseParam.getPagination());
+        mode.addAttribute("pagination", productParam.getPagination());
         return "search";
     }
 
     @Override
     public String category(Integer categoryID, Integer categoryItemID,Integer page,String sort,Model mode) throws Exception {
-        long start=System.currentTimeMillis();
-        BaseParam baseParam=new BaseParam();
-        baseParam.setCategory_id(categoryID==null?0:categoryID);
-        baseParam.setCategory_item_id(categoryItemID==null?0:categoryItemID);
-        baseParam.setSort(StringUtils.isNotEmpty(sort)?sort:"");
-        Pagination pagination=baseParam.getPagination();
+        ProductParam productParam =new ProductParam();
+        productParam.setCategory_id(categoryID==null?0:categoryID);
+        productParam.setCategory_item_id(categoryItemID==null?0:categoryItemID);
+        productParam.setSort(StringUtils.isNotEmpty(sort)?sort:"");
+        Pagination pagination= productParam.getPagination();
         pagination.setPage(page==null?0:page);
         pagination.setSize(20);
-        baseParam.setPagination(pagination);
-        List<Product>productList=baseProductList(baseParam);
+        productParam.setPagination(pagination);
+        List<Product>productList=baseProductList(productParam);
         mode.addAttribute("products",productList);
-        mode.addAttribute("pagination",baseParam.getPagination());
+        mode.addAttribute("pagination", productParam.getPagination());
         long end=System.currentTimeMillis();
-        System.out.println(TimeUtil.getTime(end-start));
         return "category";
     }
 
     @Override
     public String product(int id, Model mode) throws Exception {
-        BaseParam baseParam=new BaseParam();
-        baseParam.setId(id);
-        mode.addAttribute("product",baseProductDetail(baseParam));
+        ProductParam productParam =new ProductParam();
+        productParam.setId(id);
+        mode.addAttribute("product",baseProductDetail(productParam));
         return "product";
     }
 }

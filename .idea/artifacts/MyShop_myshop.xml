@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="war" name="MyShop:myshop">
+  <artifact type="war" build-on-make="true" name="MyShop:myshop">
     <output-path>$PROJECT_DIR$/out/artifacts/exploded</output-path>
     <root id="archive" name="MyShop_myshop.war">
       <element id="directory" name="WEB-INF">
@@ -42,6 +42,11 @@
           <element id="library" level="project" name="Maven: org.aspectj:aspectjweaver:1.8.13" />
           <element id="library" level="project" name="Maven: org.json:json:20190722" />
           <element id="library" level="project" name="taobao-sdk-java-auto_1571105308792-20191015" />
+          <element id="library" level="project" name="Maven: com.auth0:java-jwt:3.8.2" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.9.0" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.9.5" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.9.5" />
+          <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.12" />
         </element>
       </element>
       <element id="javaee-facet-resources" facet="MyShop/web/Web" />

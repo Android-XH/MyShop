@@ -122,7 +122,7 @@
                 <a href="https://www.aliexpress.com/">全球速卖通</a><span class="slash">|</span>
             </div>
             <div class="license">
-                <span>真惠省许可证编号： <a href="#nowhere">浙ICP备19041418号</a></span>
+                <span>真惠省许可证编号： <a href="http://www.beian.miit.gov.cn">浙ICP备19041418号</a></span>
                 <span>淘宝网络文化经营许可证：<a href="#nowhere">浙网文[2015]0295-065号</a></span>
                 <span><a href="#nowhere">12318举报 </a></span><br>
                 <span>淘宝互联网药品信息服务资质证书编号：<a href="#nowhere">浙-（经营性）-2012-0005</a></span>

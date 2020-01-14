@@ -28,7 +28,9 @@ public enum RequestCommon {
     AUTH_MISSING(403,"用户未登陆，请先登录！"),
     AUTH_TIME_OUT(403,"用户Token已失效！"),
     USER_MISSING(404,"该用户不存在！"),
+    USER_IS_EXIST(406,"用户名已存在！"),
     ERR_USER_PASS_WORD(405,"用户名或密码错误！");
+
 
 
     private int code;

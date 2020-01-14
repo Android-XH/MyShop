@@ -8,4 +8,8 @@ public interface IUserInterface {
     @RequestMapping("login")
     @ResponseBody
     public RequestBean login(String userName,String passWord)throws Exception;
+    @RequestMapping("register")
+    @ResponseBody
+    public RequestBean register(String userName,String passWord)throws Exception;
+
 }

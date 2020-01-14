@@ -6,12 +6,15 @@ import com.taobao.api.request.TbkTpwdCreateRequest;
 import com.taobao.api.response.TbkTpwdCreateResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import shop.annotation.Group;
+import shop.controller.param.ProductParam;
 import shop.controller.param.SortUtil;
+import shop.exception.AuthException;
 import shop.exception.RequestException;
 import shop.mode.*;
 import shop.service.*;
+import shop.util.JWTUtil;
 import shop.util.Pagination;
-import shop.util.TimeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,25 +45,25 @@ public class BaseController implements BaseControllerInterface {
     private SearchHistoryService searchHistoryService;
     @Autowired
     private RecommendService recommendService;
-
+    @Autowired
+    private UserService userService;
     @Override
     public RequestBean baseTest() throws Exception {
         return RequestBean.Data(SUCCESS_TEST);
     }
 
     @Override
-    public List<Product> baseProductList(BaseParam baseParam) throws Exception {
-        long start = System.currentTimeMillis();
+    public List<Product> baseProductList(ProductParam productParam) throws Exception {
         List<Product> productList;
-        if (StringUtils.isNotEmpty(baseParam.getSql())) {
-            productList = productService.selectBySql(baseParam.getSql());
+        if (StringUtils.isNotEmpty(productParam.getSql())) {
+            productList = productService.selectBySql(productParam.getSql());
         } else {
             ProductExample example = new ProductExample();
             ProductExample.Criteria criteria = example.createCriteria();
             ProductExample.Criteria criteria2 = null;
             ProductExample.Criteria criteria3 = null;
             //根据关键词返回
-            String keyWord = baseParam.getKeyWord();
+            String keyWord = productParam.getKeyWord();
             if (StringUtils.isNotEmpty(keyWord)) {
                 searchHistoryService.insert(keyWord);
                 keyWord=keyWord.trim();
@@ -71,9 +74,9 @@ public class BaseController implements BaseControllerInterface {
                 criteria3.andShort_titleLike("%" + keyWord + "%");
             }
             //是否根据平台返回
-            if (baseParam.getTypes() != null&&baseParam.getTypes().length()==1) {
+            if (productParam.getTypes() != null&& productParam.getTypes().length()==1) {
                 List<Long> sids = new ArrayList<>();
-                String[] type = baseParam.getTypes().split(",");
+                String[] type = productParam.getTypes().split(",");
                 for (String t : type) {
                     int userType = Integer.valueOf(t);
                     List<ShopUser> shopUsers = shopUserService.list("user_type_eq", userType);
@@ -88,53 +91,53 @@ public class BaseController implements BaseControllerInterface {
                 }
             }
             //返回价格以上的商品
-            if (baseParam.getMinPrice() != 0f && baseParam.getMaxPrice() == 0f) {
-                criteria.andPriceGreaterThanOrEqualTo(baseParam.getMinPrice());
+            if (productParam.getMinPrice() != 0f && productParam.getMaxPrice() == 0f) {
+                criteria.andPriceGreaterThanOrEqualTo(productParam.getMinPrice());
                 if (null != criteria2&&null!=criteria3) {
-                    criteria2.andPriceGreaterThanOrEqualTo(baseParam.getMinPrice());
-                    criteria3.andPriceGreaterThanOrEqualTo(baseParam.getMinPrice());
+                    criteria2.andPriceGreaterThanOrEqualTo(productParam.getMinPrice());
+                    criteria3.andPriceGreaterThanOrEqualTo(productParam.getMinPrice());
                 }
             }
             //返回价格以下的商品
-            if (baseParam.getMaxPrice() != 0f) {
-                criteria.andPriceBetween(baseParam.getMinPrice(), baseParam.getMaxPrice());
+            if (productParam.getMaxPrice() != 0f) {
+                criteria.andPriceBetween(productParam.getMinPrice(), productParam.getMaxPrice());
                 if (null != criteria2&&null!=criteria3) {
-                    criteria2.andPriceBetween(baseParam.getMinPrice(), baseParam.getMaxPrice());
-                    criteria3.andPriceBetween(baseParam.getMinPrice(), baseParam.getMaxPrice());
+                    criteria2.andPriceBetween(productParam.getMinPrice(), productParam.getMaxPrice());
+                    criteria3.andPriceBetween(productParam.getMinPrice(), productParam.getMaxPrice());
                 }
             }
             //根据传入商品ID返回类似商品
-            if (baseParam.getId() != 0) {
-                Product product = (Product) productService.get(baseParam.getId());
+            if (productParam.getId() != 0) {
+                Product product = (Product) productService.get(productParam.getId());
                 if (product != null) {
                     criteria.andIdNotEqualTo(product.getId());
                     if (null != criteria2&&null!=criteria3) {
                         criteria2.andIdNotEqualTo(product.getId());
                         criteria3.andIdNotEqualTo(product.getId());
                     }
-                    baseParam.setCategory_item_id(product.getCategory_item_id());
+                    productParam.setCategory_item_id(product.getCategory_item_id());
                 } else {
                     throw new RequestException(RequestCommon.ERROR_PRODUCT_NOT_FOUND);
                 }
             }
             //返回同类商品
-            if (baseParam.getCategory_item_id() != 0) {
-                criteria.andCategory_item_idEqualTo(baseParam.getCategory_item_id());
+            if (productParam.getCategory_item_id() != 0) {
+                criteria.andCategory_item_idEqualTo(productParam.getCategory_item_id());
                 if (null != criteria2&&null!=criteria3) {
-                    criteria2.andCategory_item_idEqualTo(baseParam.getCategory_item_id());
-                    criteria3.andCategory_item_idEqualTo(baseParam.getCategory_item_id());
+                    criteria2.andCategory_item_idEqualTo(productParam.getCategory_item_id());
+                    criteria3.andCategory_item_idEqualTo(productParam.getCategory_item_id());
                 }
             }
             //返回同一大类下的商品
-            if (baseParam.getCategory_id() != 0) {
-                criteria.andCategory_idEqualTo(baseParam.getCategory_id());
+            if (productParam.getCategory_id() != 0) {
+                criteria.andCategory_idEqualTo(productParam.getCategory_id());
                 if (null != criteria2&&null!=criteria3) {
-                    criteria2.andCategory_idEqualTo(baseParam.getCategory_id());
-                    criteria3.andCategory_idEqualTo(baseParam.getCategory_id());
+                    criteria2.andCategory_idEqualTo(productParam.getCategory_id());
+                    criteria3.andCategory_idEqualTo(productParam.getCategory_id());
                 }
             }
-            if(baseParam.getMenu_id()!=0){
-                List<Category>categoryList=categoryService.list("menu_id_eq",baseParam.getMenu_id());
+            if(productParam.getMenu_id()!=0){
+                List<Category>categoryList=categoryService.list("menu_id_eq", productParam.getMenu_id());
                 List<Long>categoryIDS=new ArrayList<>();
                 for(Category category:categoryList){
                     categoryIDS.add(category.getCategory_id());
@@ -145,26 +148,24 @@ public class BaseController implements BaseControllerInterface {
                     criteria3.andCategory_idIn(categoryIDS);
                 }
             }
-            if(baseParam.getSort()!=null){
-                example.setOrderByClause(SortUtil.handleSort(baseParam.getSort()));
+            if(productParam.getSort()!=null){
+                example.setOrderByClause(SortUtil.handleSort(productParam.getSort()));
             }
-            Pagination pagination = baseParam.getPagination();
+            Pagination pagination = productParam.getPagination();
             productList = productService.getList(example, 2, pagination);
-            baseParam.setPagination(pagination);
+            productParam.setPagination(pagination);
 
         }
-        long end = System.currentTimeMillis();
-        System.out.println("耗时：" + TimeUtil.getTime(end - start));
         return productList;
     }
 
     @Override
-    public Product baseProductDetail(BaseParam baseParam) throws Exception {
+    public Product baseProductDetail(ProductParam productParam) throws Exception {
         Product product;
-        if (baseParam.getId() != 0) {
-            product = (Product) productService.get(baseParam.getId());
-        } else if (baseParam.getPid() != 0) {
-            product = (Product) productService.getOne("pid_eq", baseParam.getPid());
+        if (productParam.getId() != 0) {
+            product = (Product) productService.get(productParam.getId());
+        } else if (productParam.getPid() != 0) {
+            product = (Product) productService.getOne("pid_eq", productParam.getPid());
         } else {
             throw new RequestException(RequestCommon.ERROR_PARAM_NOT_FOUND);
         }
@@ -172,11 +173,11 @@ public class BaseController implements BaseControllerInterface {
     }
 
     @Override
-    public List<Category> baseCategoryList(BaseParam baseParam) throws Exception {
+    public List<Category> baseCategoryList(ProductParam productParam) throws Exception {
         List<Category> categoryList;
-        Pagination pagination = baseParam.getPagination();
-        if (StringUtils.isNotEmpty(baseParam.getKeyWord())) {
-            categoryList = categoryService.list("depth", 1, "pagination", pagination, "name_like", baseParam.getKeyWord());
+        Pagination pagination = productParam.getPagination();
+        if (StringUtils.isNotEmpty(productParam.getKeyWord())) {
+            categoryList = categoryService.list("depth", 1, "pagination", pagination, "name_like", productParam.getKeyWord());
         } else {
             categoryList = categoryService.list("depth", 1, "pagination", pagination);
         }
@@ -184,15 +185,15 @@ public class BaseController implements BaseControllerInterface {
     }
 
     @Override
-    public Category baseCategory(BaseParam baseParam) throws Exception {
-        Category category = (Category) categoryService.getOne("category_id_eq", baseParam.getCategory_id());
+    public Category baseCategory(ProductParam productParam) throws Exception {
+        Category category = (Category) categoryService.getOne("category_id_eq", productParam.getCategory_id());
         return category;
     }
 
     @Override
-    public List<MenuCategory> baseMenuCategoryList(BaseParam baseParam) throws Exception {
-        Pagination pagination = baseParam.getPagination();
-        List<MenuCategory> menuCategories = menuCategoryService.list("pagination", pagination, "order", "id asc", "recommend_gt&eq", baseParam.getRecommend());
+    public List<MenuCategory> baseMenuCategoryList(ProductParam productParam) throws Exception {
+        Pagination pagination = productParam.getPagination();
+        List<MenuCategory> menuCategories = menuCategoryService.list("pagination", pagination, "order", "id asc", "recommend_gt&eq", productParam.getRecommend());
         return menuCategories;
     }
 
@@ -200,9 +201,9 @@ public class BaseController implements BaseControllerInterface {
     public List<Recommend> getRecommendList() throws Exception {
         List<Recommend> recommendList = recommendService.list("order", "is_recommend desc", "is_recommend_gt&eq", 1);
         for (Recommend recommend : recommendList) {
-            BaseParam baseParam = new BaseParam();
-            baseParam.setId(recommend.getPid());
-            Product product = (Product) productService.get(baseParam.getId());
+            ProductParam productParam = new ProductParam();
+            productParam.setId(recommend.getPid());
+            Product product = (Product) productService.get(productParam.getId());
             recommend.setProduct(product);
         }
         return recommendList;
@@ -242,4 +243,30 @@ public class BaseController implements BaseControllerInterface {
         }
     }
 
+    @Override
+    public User getUser(String userName,String passWord) throws Exception {
+        User user=userService.get(userName,passWord);
+        if(user==null){
+            throw new RequestException(RequestCommon.ERR_USER_PASS_WORD);
+        }
+        String token= JWTUtil.createToken(user);
+        user.setToken(token);
+        return user;
+    }
+
+    @Override
+    public User registerUser(String userName, String passWord) throws Exception {
+        if(userService.isExist(userName)){
+            throw new AuthException(RequestCommon.USER_IS_EXIST);
+        }
+        User user=new User();
+        user.setName(userName);
+        user.setPassword(passWord);
+        user.setGroup(Group.user);
+        String token= JWTUtil.createToken(user);
+        System.out.println("token=="+token);
+        user.setToken(token);
+        userService.add(user);
+        return user;
+    }
 }

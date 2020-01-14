@@ -1,5 +1,6 @@
 package shop.controller;
 
+import com.sun.org.apache.regexp.internal.RE;
 import shop.exception.RequestException;
 import shop.mode.*;
 import shop.util.Pagination;
@@ -107,6 +108,13 @@ public class RequestBean extends HashMap<String, Object> {
             p.put("small_images",smallList);
         }
         return Data(p);
+    }
+    public static RequestBean getUser(User user){
+        RequestBean requestBean=new RequestBean();
+        requestBean.put("id",user.getId());
+        requestBean.put("user_name",user.getName());
+        requestBean.put("token",user.getToken());
+        return Data(requestBean);
     }
 
 }

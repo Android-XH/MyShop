@@ -5,10 +5,12 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import shop.exception.AuthException;
 import shop.mode.*;
 import shop.service.*;
 import shop.timer.task.DeleteGroup;
 import shop.timer.task.GetProducts;
+import shop.util.JWTUtil;
 import shop.util.Pagination;
 import shop.util.TimeUtil;
 
@@ -79,6 +81,20 @@ public class GetProductTest extends AbstractJUnit4SpringContextTests {
     @Test
     public void getTimes(){
         System.out.println(TimeUtil.getTime(1234));
+    }
+    @Test
+    public void getToken(){
+        String token= JWTUtil.createToken("123");
+        System.out.println(token);
+        String key= null;
+        try {
+            key = JWTUtil.decode(token,String.class);
+            System.out.println(key);
+        } catch (AuthException e) {
+            e.printStackTrace();
+            System.out.println(e);
+        }
+
     }
     @Test
     public void getProductByKey(){

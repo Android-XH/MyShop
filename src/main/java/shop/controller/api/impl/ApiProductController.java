@@ -1,25 +1,15 @@
 package shop.controller.api.impl;
 
-import com.taobao.api.DefaultTaobaoClient;
-import com.taobao.api.TaobaoClient;
-import com.taobao.api.request.TbkTpwdCreateRequest;
-import com.taobao.api.response.TbkTpwdCreateResponse;
 import org.springframework.stereotype.Controller;
-import shop.controller.BaseParam;
+import shop.controller.param.ProductParam;
 import shop.controller.api.ApiBaseController;
 import shop.controller.RequestBean;
 import shop.controller.api.ApiProductInterface;
 import shop.mode.MenuCategory;
-import shop.mode.Product;
 import shop.mode.Recommend;
 import shop.mode.SearchHistory;
-import shop.util.Pagination;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-
-import static shop.controller.RequestCommon.SUCCESS_TEST;
 
 @Controller
 public class ApiProductController extends ApiBaseController implements ApiProductInterface {
@@ -30,22 +20,22 @@ public class ApiProductController extends ApiBaseController implements ApiProduc
     }
 
     @Override
-    public RequestBean getProductList(BaseParam baseParam) throws Exception {
-        System.out.println(baseParam.toString());
-        return RequestBean.getProductList(baseProductList(baseParam),baseParam.getPagination());
+    public RequestBean getProductList(ProductParam productParam) throws Exception {
+        System.out.println(productParam.toString());
+        return RequestBean.getProductList(baseProductList(productParam), productParam.getPagination());
     }
 
 
     @Override
     public RequestBean getProductDetail(int id) throws Exception {
-        BaseParam baseParam=new BaseParam();
-        baseParam.setId(id);
-        return RequestBean.getProductDetail(baseProductDetail(baseParam));
+        ProductParam productParam =new ProductParam();
+        productParam.setId(id);
+        return RequestBean.getProductDetail(baseProductDetail(productParam));
     }
 
     @Override
     public RequestBean getMenuCategory() throws Exception {
-        List<MenuCategory>menuCategoryList=baseMenuCategoryList(new BaseParam());
+        List<MenuCategory>menuCategoryList=baseMenuCategoryList(new ProductParam());
         return RequestBean.ArrayData(menuCategoryList);
     }
 

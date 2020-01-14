@@ -1,11 +1,11 @@
-package shop.controller;
+package shop.controller.param;
 
 import org.apache.commons.lang3.StringUtils;
 import shop.util.Pagination;
 
 import java.util.Arrays;
 
-public class BaseParam {
+public class ProductParam {
     private String keyWord;//搜索关键词
     private int id;//条目ID
     private long pid;//商品ID
